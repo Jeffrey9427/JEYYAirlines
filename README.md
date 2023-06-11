@@ -33,31 +33,31 @@ JEYY Airlines is a command-line interface application that simulates a flight ma
 
 To run this app, make sure you have Java Development Kit (JDK) installed on your machine. You can check this by running: 
 
-```java
+```bash
 $ java -version
 ```
 
 1. Clone the repository: 
 
-```java
+```bash
 $ git clone https://github.com/Jeffrey9427/JEYYAirlines.git
 ```
 
 2. Navigate to the cloned repository's directory: 
 
-```java
+```bash
 $ cd JEYYAirlines
 ```
 
 3. Compile the Java code: 
 
-```java
+```bash
 $ javac Main.java
 ```
 
 4. Run the Java program: 
 
-```
+```bash
 $ java <Main>
 ```
 
