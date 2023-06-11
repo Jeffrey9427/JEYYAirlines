@@ -1,0 +1,6 @@
+810120,jeffrey,jeffrey@gmail.com,123,jakarta,0239923923
+771732,jeffreyyy,jeffreyyy@gmail.com,123123,sudirman,12392193
+719958,abi,abi@gmail.com,4321,bintaro,123123123
+683222,cath,cath@gmail.com,321,batam,12391239
+511389,audrey,kalidere,543,jakarta,012031023
+278400,lenno1,lenno1@gmail.com,123,pamulang,120301203012
