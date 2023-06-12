@@ -308,7 +308,7 @@ public class Flight extends FlightDistance {
 
         //create a string representing the flight schedule
         String flightScheduleNew = String.format("%s, %s, %s", flightDayNew, flightDateNew, flightTimeNew);
-        System.out.print("Enter the flight number :\t");
+        System.out.print("Enter the flight number (XX-000) :\t");
         String flightNumberNew = read.nextLine();
         System.out.print("Enter the number of seats available in the flight :\t");
         int flightNumOfSeatsNew = read.nextInt();
@@ -335,53 +335,77 @@ public class Flight extends FlightDistance {
 
         //prompt the user to enter the departure city
         System.out.println();
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the departure city :\t");
-        String flightDepartureCityNew = scanner.nextLine();
 
         //create a 2d array to store chosen destinations
         String[][] chosenDestinationsNew = new String[2][3];
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("destination.txt"))) {
-            String line;
+        Scanner scanner = new Scanner(System.in);
 
-            //search for the chosen departure city and store its details
-            while ((line = reader.readLine()) != null) {
-                //split the line by ","
-                String[] parts = line.split(",");
+        boolean validDepartureCity = false, validArrivalCity = false;
+        String flightDepartureCityNew = "", flightArrivalCityNew = "";
 
-                //extract the departure city information
-                if (parts[0].trim().equalsIgnoreCase(flightDepartureCityNew)) {
-                    chosenDestinationsNew[0][0] = parts[0].trim();  //departureCity
-                    chosenDestinationsNew[0][1] = parts[1].trim();  //departureCityLatitude
-                    chosenDestinationsNew[0][2] = parts[2].trim();  //departureCityLongitude
+        //check if departure city entered is available in JEYY Airlines
+        while (!validDepartureCity) {
+            //prompt the user to enter the departure city
+            System.out.print("Enter the departure city :\t");
+            flightDepartureCityNew = scanner.nextLine();
+            try (BufferedReader reader = new BufferedReader(new FileReader("destination.txt"))) {
+                String line;
+
+                //search for the chosen departure city and store its details
+                while ((line = reader.readLine()) != null) {
+                    //split the line by ","
+                    String[] parts = line.split(",");
+
+                    //extract the departure city information
+                    if (parts[0].trim().equalsIgnoreCase(flightDepartureCityNew)) {
+                        chosenDestinationsNew[0][0] = parts[0].trim();  //departureCity
+                        chosenDestinationsNew[0][1] = parts[1].trim();  //departureCityLatitude
+                        chosenDestinationsNew[0][2] = parts[2].trim();  //departureCityLongitude
+                        validDepartureCity = true;  //set the condition to exit the loop when the departure city is found in the txt file
+                        break;
+                    }
                 }
 
+                //print failure message to find the departure city when not available
+                if (!validDepartureCity) {
+                    System.out.println("Departure city not found. Please try again.");
+                }
+            } catch (IOException e) {
+                System.out.println("File could not be accessed");
             }
-        } catch (IOException e) {
-            System.out.println("File could not be accessed");
         }
 
-        //prompt the user to enter the arrival city
-        System.out.print("Enter the arrival city :\t");
-        String flightArrivalCityNew = scanner.nextLine();
-        try (BufferedReader reader = new BufferedReader(new FileReader("destination.txt"))) {
-            String line;
+        //check if arrival city entered is available in JEYY Airlines
+        while (!validArrivalCity) {
+            //prompt the user to enter the arrival city
+            System.out.print("Enter the arrival city :\t");
+            flightArrivalCityNew = scanner.nextLine();
+            try (BufferedReader reader = new BufferedReader(new FileReader("destination.txt"))) {
+                String line;
 
-            //search for the chosen arrival city and store its details
-            while ((line = reader.readLine()) != null) {
-                //split the line by ","
-                String[] parts = line.split(",");
+                //search for the chosen arrival city and store its details
+                while ((line = reader.readLine()) != null) {
+                    //split the line by ","
+                    String[] parts = line.split(",");
 
-                //extract the arrival city information
-                if (parts[0].trim().equalsIgnoreCase(flightArrivalCityNew)) {
-                    chosenDestinationsNew[1][0] = parts[0].trim();  //departureCity
-                    chosenDestinationsNew[1][1] = parts[1].trim();  //departureCityLatitude
-                    chosenDestinationsNew[1][2] = parts[2].trim();  //departureCityLongitude
+                    //extract the arrival city information
+                    if (parts[0].trim().equalsIgnoreCase(flightArrivalCityNew)) {
+                        chosenDestinationsNew[1][0] = parts[0].trim();  //departureCity
+                        chosenDestinationsNew[1][1] = parts[1].trim();  //departureCityLatitude
+                        chosenDestinationsNew[1][2] = parts[2].trim();  //departureCityLongitude
+                        validArrivalCity = true;  //set the condition to exit the loop when the arrival city is found in the txt file
+                        break;
+                    }
                 }
+
+                //print failure message to find the arrival city when not available
+                if (!validArrivalCity) {
+                    System.out.println("Arrival city not found. Please try again.");
+                }
+            } catch (IOException e) {
+                System.out.println("File could not be accessed");
             }
-        } catch (IOException e) {
-            System.out.println("File could not be accessed");
         }
 
         //calculate the distance between the departure and arrival cities
@@ -392,7 +416,7 @@ public class Flight extends FlightDistance {
                 Double.parseDouble(chosenDestinationsNew[1][2])
         );
 
-        System.out.print("Enter the gate of flight :\t");
+        System.out.print("Enter the gate of flight (X-0) :\t");
         String gateNew = scanner.nextLine();
 
         try (FileWriter writer = new FileWriter(FLIGHT_FILE_PATH, true)) {
