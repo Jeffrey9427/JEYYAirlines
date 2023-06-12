@@ -4,6 +4,9 @@ import Person.Passenger;
 import FileHandler.RandomGenerator;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -299,10 +302,12 @@ public class Flight extends FlightDistance {
         Scanner read = new Scanner(System.in);
 
         //prompt the user to enter flight details
-        System.out.print("\nEnter the day of flight :\t");
-        String flightDayNew = read.nextLine();
-        System.out.print("Enter the date of flight (Day Month Year) :\t");
+        System.out.print("\nEnter the date of flight (Day Month Year) :\t");
         String flightDateNew = read.nextLine();
+
+        //get the day of the week for the provided date
+        String flightDayNew = getDayOfWeek(flightDateNew);
+
         System.out.print("Enter the time of flight (HH:MM AM/PM) :\t");
         String flightTimeNew = read.nextLine();
 
@@ -516,6 +521,33 @@ public class Flight extends FlightDistance {
 
         displayFlightSchedule();
     }
+
+    //method for getting day of week based on date input
+    public static String getDayOfWeek(String date) {
+        try {
+            //create a date format object to parse the input date string
+            DateFormat format = new SimpleDateFormat("dd MMMM yyyy");
+
+            //parse the date string into a Date object
+            Date parsedDate = format.parse(date);
+
+            //create a Calendar instance and set the parsed date
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(parsedDate);
+
+            //retrieve the day of the week from the Calendar object
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+            //convert dayOfWeek to the corresponding day name
+            String[] dayNames = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+            return dayNames[dayOfWeek - 1];
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
     //method for displaying flight schedules
     public void displayFlightSchedule() {
